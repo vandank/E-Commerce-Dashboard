@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
-from backend.analysis_engine (
+from backend.analysis_engine import (
     get_monthly_revenue,
     get_top_products,
     get_customers_by_country,

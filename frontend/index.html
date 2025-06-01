@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecommerce Analysis Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    select, button { margin: 10px; padding: 6px; }
+    #output { white-space: pre-wrap; background: #f4f4f4; padding: 15px; margin-top: 20px; border: 1px solid #ccc; }
+  </style>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h1>📊 Ecommerce Dashboard</h1>
+
+  <label for="analysis">Choose Analysis:</label>
+  <select id="analysis">
+    <option value="rfm">RFM Analysis</option>
+    <option value="monthly-revenue">Monthly Revenue</option>
+    <option value="top-products">Top Products</option>
+    <option value="customers-by-country">Customers by Country</option>
+    <option value="revenue-by-country">Revenue by Country</option>
+    <option value="avg-revenue-per-customer">Average Revenue per Customer</option>
+    <option value="orders-by-country">Orders by Country</option>
+    <option value="avg-revenue-per-order">Average Revenue per Order</option>
+    <option value="clv">Customer Lifetime Value</option>
+  </select>
+
+  <button onclick="fetchData()">Run</button>
+
+  <div id="chart" style="width: 100%; height: 500px;"></div>
+  <div id="output">Select an analysis option above and click Run.</div>
+
+  <script>
+    function fetchData() {
+      const selected = document.getElementById("analysis").value;
+      const url = `http://127.0.0.1:8000/${selected}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const chart = document.getElementById("chart");
+          const output = document.getElementById("output");
+
+          chart.innerHTML = '';  // Clear chart
+          output.innerText = ''; // Clear text output
+
+          if (selected === "monthly-revenue") {
+            const x = data.map(d => d.YearMonth);
+            const y = data.map(d => d.TotalPrice);
+            Plotly.newPlot(chart, [{ x, y, type: 'scatter', mode: 'lines+markers', marker: { color: 'orange' } }], {
+              title: 'Monthly Revenue Trend', xaxis: { title: 'Month' }, yaxis: { title: 'Revenue (£)' }
+            });
+
+          } else if (selected === "top-products") {
+            const x = data.map(d => d.Description);
+            const y = data.map(d => d.Quantity);
+            Plotly.newPlot(chart, [{ x, y, type: 'bar', marker: { color: 'blue' } }], {
+              title: 'Top Products by Quantity Sold', xaxis: { title: 'Product' }, yaxis: { title: 'Quantity' }
+            });
+
+          } else if (selected === "customers-by-country") {
+            const x = data.map(d => d.Country);
+            const y = data.map(d => d.UniqueCustomers);
+            Plotly.newPlot(chart, [{ x, y, type: 'bar', marker: { color: 'green' } }], {
+              title: 'Customers by Country', xaxis: { title: 'Country' }, yaxis: { title: 'Customers' }
+            });
+
+          }else if (selected === "revenue-by-country"){
+            const x = data.map(d => d.Country);
+            const y = data.map(d => d.TotalRevenue);
+            Plotly.newPlot(chart, [{x , y, type: 'bar', marker: { color: 'blue' } }], {
+                title: 'Revenue by Country', xaxis: {title: 'Country', yaxis: { title: 'Revenue' }}
+            });
+
+          } else if (selected === "orders-by-country") {
+            const x = data.map(d => d.Country);
+            const y = data.map(d => d.NumOrders);
+            Plotly.newPlot(chart, [{ x, y, type: 'bar', marker: { color: 'purple' } }], {
+              title: 'Orders by Country', xaxis: { title: 'Country' }, yaxis: { title: 'Orders' }
+            });
+
+          } else if (selected === "clv") {
+            const x = data.map(d => d.CustomerID);
+            const y = data.map(d => d.CLV);
+            Plotly.newPlot(chart, [{ x, y, type: 'scatter', mode: 'markers', marker: { color: 'red' } }], {
+              title: 'Customer Lifetime Value (CLV)', xaxis: { title: 'Customer ID' }, yaxis: { title: 'CLV (£)' }
+            });
+
+          } else if (selected === "rfm") {
+            const x = data.map(d => d.Recency);
+            const y = data.map(d => d.Monetary);
+            Plotly.newPlot(chart, [{ x, y, mode: 'markers', type: 'scatter', marker: { size: 8, color: data.map(d => d.Frequency), colorscale: 'Viridis' } }], {
+              title: 'RFM Distribution (Recency vs Monetary)', xaxis: { title: 'Recency (days)' }, yaxis: { title: 'Monetary (£)' }
+            });
+
+          } else if (selected === "avg-revenue-per-customer") {
+            output.innerText = `Average Revenue per Customer: £${data.average_revenue_per_customer.toFixed(2)}`;
+
+          } else if (selected === "avg-revenue-per-order") {
+            output.innerText = `Average Revenue per Order: £${data.average_order_value.toFixed(2)}`;
+
+          } else {
+            output.innerText = JSON.stringify(data, null, 2);
+          }
+        })
+        .catch(err => {
+          document.getElementById("output").innerText = "Error fetching data: " + err;
+          document.getElementById("chart").innerHTML = '';
+        });
+    }
+  </script>
+</body>
+</html>

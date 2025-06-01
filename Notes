@@ -1,0 +1,45 @@
+# Workspace of Project
+your-project/
+├── backend/
+│   ├── analysis_engine.py
+│   ├── app.py
+│   └── ecommerce_cleaned.csv
+│
+├── frontend/
+│   ├── index.html
+│   ├── app.js
+│   └── styles.css (optional)
+│
+├── notebooks/
+│   └── Ecommerce.ipynb
+└── README.md
+
+# For running the API Application:
+1. cd backend,
+2. uvicorn app:app --reload
+
+Open Swagger UI:
+http://127.0.0.1:8000/docs
+
+# Architecture 
+Layer	    Tech	            What We Do
+Backend	    FastAPI	            Serve data from CSV as JSON
+Frontend    HTML + JS + Plotly	Fetch data from FastAPI and render charts
+
+-----------------------------
+#Upgrading the Layout using React!!!!!!
+-----------------------------
+E-CommerceAnalysis/
+├── backend/
+│   └── app.py
+│   └── analysis_engine.py
+├── datasets/
+│   └── data.csv
+├── frontend-react/     <-- New React app goes here
+│   ├── src/
+│   │   ├── components/ (Chart wrappers, Dropdowns)
+│   │   ├── pages/
+│   │   └── App.jsx
+│   └── public/
+├── notebooks/
+└── README.md

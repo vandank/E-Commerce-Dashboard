@@ -1,5 +1,3 @@
-**Complete Guide to Deploying Your React + FastAPI App on Render and Pushing Code to GitHub**
-
 ---
 
 ## 📖 Project Overview

@@ -64,10 +64,9 @@ E-CommerceAnalysis/
 ## 🖼️ Screenshots
 
 
-```md
+
 ![Home](screenshots/homepage.png)
 ![Dropdown](screenshots/dropdown.png)
-```
 
 ---
 

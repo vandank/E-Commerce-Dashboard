@@ -1,7 +1,3 @@
-**Complete Guide to Deploying Your React + FastAPI App on Render and Pushing Code to GitHub**
-
----
-
 ## ✨ Project Journey: From Notebook to Full Web App
 
 This project originally began as a simple **data analysis notebook** in Jupyter. The goal was to perform basic cleaning and gain insights from an E-commerce dataset. Over time, I realized that while the analysis was powerful, it wasn’t accessible or interactive. That's when I decided to turn this into a **full-stack web application**.

@@ -1,5 +1,3 @@
----
-
 ## 📖 Project Overview
 
 This is a full-stack **E-Commerce Insight Dashboard** built using **React** for the frontend and **FastAPI** for the backend. It visualizes and analyzes online retail data to help businesses understand key metrics such as:
